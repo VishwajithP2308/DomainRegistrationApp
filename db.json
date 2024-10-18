@@ -1,0 +1,30 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "name",
+      "cart": [
+        {
+          "domainName": "online.in",
+          "isAvailable": true,
+          "price": 200
+        },
+        {
+          "domainName": "online.co.in",
+          "isAvailable": true,
+          "price": 200
+        },
+        {
+          "domainName": "online.one",
+          "isAvailable": true,
+          "price": 200
+        },
+        {
+          "domainName": "online.org.in",
+          "isAvailable": true,
+          "price": 200
+        }
+      ]
+    }
+  ]
+}
