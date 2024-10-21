@@ -1,130 +1,91 @@
-# Challenge 3: React
+# Domain Registration App
 
-In this challenge, you will build a frontend component similar to one we use in the Fiber web app. You'll be using React, Next.js, TypeScript, and [Chakra UI](https://chakra-ui.com/) (a popular React component library).
+This is a full-stack **Domain Registration Application** built using **Next.js** and **React** on the frontend, with **Next.js API routes** on the backend to interact with GoDaddy's API for domain registration. The app allows users to search for available domain names and get domain suggestions.
 
-## Task
+## Features
 
-Build out the contents of the `Challenge` component in `src/components/challenge.tsx`. You are encouraged to make as many sub-components as you need; you can put these in the `components/` folder. You won't need to edit the `src/pages/index.tsx` file.
+- **User Authentication**: Integrated with **NextAuth.js** using Google OAuth for user authentication and session management.
+- **Domain Search**: Allows users to search for domain names and checks for their availability using **GoDaddy's API**.
+- **Domain Suggestions**: Provides alternative domain name suggestions if the searched domain is unavailable.
+- **Form Validation**: **Formik** is used to manage form state, and **Yup** for validating domain name input.
+- **API Routes**: Backend API routes are handled securely using **Next.js** to interact with GoDaddy’s API.
+- **State Management and Data Fetching**: Centralized server-side state management using **React Query**, which improves scalability by managing data fetching, caching, and synchronization efficiently.
+- **UI**: Built using **Chakra UI** for a clean and responsive design, making the application visually appealing and consistent.
+- **Reusable Components**: Includes reusable components such as `CardLoader` and `AddDomainCard` for modular code and better maintainability.
 
-When we run `npm run dev`, that will open up `http://localhost:3000` -- your ultimate goal is to make this page fit the below specification.
+## Tech Stack
 
-## Constraints
+- **Frontend**: 
+  - **Next.js** (React framework for SSR and frontend logic)
+  - **Chakra UI** (for UI components)
+  - **Formik** (for form handling)
+  - **Yup** (for form validation)
 
-- You must use TypeScript, with explicit typing for every variable and function.
-- You must follow a modern, "React"-y style, using functional components and hooks like `useState`, `useMemo`, and `useCallback`.
-- You must ensure that `npm run build` finishes correctly, with no errors and no warnings.
-- You must ensure that `npm run lint` raises no lint errors.
-- Your page must be responsive: it should work on small (mobile), medium (tablet), and large (desktop) screens.
-- You must use a functional, immutable code style. That means using only `const`s, and no `let`s or `var`s (unless `let` is absolutely necessary).
-- You may `npm install` whatever new libraries you like, although most of the ones you'll need have already been added to `package.json` for you.
+- **Backend**:
+  - **Next.js API Routes** (server-side logic)
+  - **Axios** (for API calls to GoDaddy’s API)
+  - **NextAuth.js** (for authentication using Google OAuth)
+  
+- **State Management**: 
+  - **React Query** (for handling server-side state, data fetching, and caching)
 
-## Specification
+- **Database**: 
+  - No traditional database is used in this app as it directly interacts with GoDaddy's API.
+  - To mimic a backend during development, run '''npm run db''' which starts a JSON server. The JSON server acts as a mock backend,         allowing the app to function as if it had a real database.
 
-Your task is to build a shopping cart for domain purchases. The user can input website domain names they want to buy, such as `example.com`; your component will call a mock API to "check" if those domains are available. The user should be able to view and delete the domain names in their cart. By the end, the user should have exactly `numDomainsRequired` domains in their cart (`numDomainsRequired` is a parameter passed into the component that you'll be building out; see `src/components/challenge.tsx`).
 
-You should have the following core features. Note that you should add smaller polish and usability features that aren't on this list; this is just a set of core functionality. Try to make the UI and UX as smooth and intuitive as possible.
+## How it Works
 
-- Users should be able to type in a domain name they want to add; they should be able to hit "Enter" or click a button to add that domain to a growing set or list. In terms of validation, the domain name should be bare (e.g. `example.com` is OK, but `https://example.com` are `example.com/abc` are not), and it must end with `.com`, `.xyz`, or `.app`. It's OK if the user inputs the domain in mixed case, but when the user adds that domain to your set/list, you should convert it to lowercase (e.g. `Example.Com` => `example.com`).
-- The user's cart of domains should not have duplicates; for instance, if the user has `[example.com, acme.com]` and adds `example.com`, that should be a no-op, since `example.com` is already in there.
-- The user should be able to see all the domains in their cart. They should be able to delete domains. You may optionally let the user edit existing domains, but it's OK if you don't have the feature (users can always delete a domain and add a new one).
-- When a domain is added to the cart, call the `isDomainAvailable` function in `src/lib/resources.ts` to check if the domain is available for purchase (according to our mock API -- this just makes up dummy data). Show the availability status of each domain.
-- Count how many domains are in the user's cart (both available and unavailable). Compare this domain count to the `numDomainsRequired` parameter; e.g. you can show that 3 out of 5 domains have been added to the cart. Create some UI component(s) showing how "full" the cart is and whether the user has added too many domains. (It's OK if the user has too many domains in their cart -- just tell the user they need to remove some.)
-- If the user's cart contains exactly `numDomainsRequired` domains, have a button that the user can click to "purchase" those domains. You don't actually need to take any action in this situation; just let the user click a button. If the user's cart is the wrong size, disable the button.
-- Add several other buttons below the list of domains (see below).
+1. Users log in using Google OAuth.
+2. Users can search for a domain name in the search bar.
+3. The app checks the availability of the entered domain by sending a request to GoDaddy’s API.
+4. If the domain is unavailable, it provides alternative suggestions.
+5. Users can add the domain to their cart (simulated).
 
-### Buttons
+## Installation
 
-Add these buttons below the list of domains:
+1. Clone the repository:
 
-- A button to clear the cart.
-- A button to remove all unavailable domains from the cart.
-- A button to copy the domains in the cart to the clipboard, separated by commas. For instance `[abc.com, def.com, ghi.com]` could be copied as `abc.com, def.com, ghi.com`.
-- A button to keep only the `N` "best" domains, where `N` is `numDomainsRequired`. To prioritize domains, sort them by their domain ending first: `.com` is better than `.app` which is better than `.xyz`. If there are ties, shorter domains win. For instance, one correct ordering is `[abc.com, abcd.com, ab.app, abc.app, a.xyz]`.
+   ```bash
+   git clone https://github.com/VishwajithP2308/DomainRegistrationApp.git
+   ```
 
-## Components
+2. Install the dependencies:
 
-You should use the [Chakra UI](https://chakra-ui.com/docs/components) component library; it's already been installed and wired up for you. You can [add inline styles](https://chakra-ui.com/docs/styled-system/style-props) to the Chakra components, which is helpful for specifying things like padding, margins, and width. You usually won't need to change more stylistic things like colors, fonts, or borders, since Chakra's default styling is quite good on the visual front.
+   ```bash
+   cd DomainRegistrationApp
+   npm install
+   ```
 
-Tailwind's utility CSS classes are available should you need them, though you should not build components from scratch using Tailwind. Only use Tailwind for one-off styling needs that Chakra doesn't offer (these are quite rare, though).
+3. Create a `.env.local` file and add your GoDaddy API Key, Secret, and Google OAuth credentials for NextAuth:
 
-Avoid using components from other component libraries or importing random React components from NPM -- these tend to clash with the Chakra style.
+   ```
+   GODADDY_API_KEY=your_godaddy_api_key
+   GODADDY_API_SECRET=your_godaddy_api_secret
+   NEXTAUTH_SECRET=your_nextauth_secret
+   NEXTAUTH_URL=http://localhost:3000
+   GOOGLE_CLIENT_ID=your_google_client_id
+   GOOGLE_CLIENT_SECRET=your_google_client_secret
+   ```
 
-## Tips
+4. Run the development server:
 
-### Chakra
+   ```bash
+   npm run dev
+   ```
 
-Chakra UI offers a variety of useful features that you should make use of, including:
+5. Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
 
-- [Components](https://chakra-ui.com/docs/components) like `Card`, `Box`, and `Button`. Pay special attention to spacing / layout components like `HStack`, `VStack`, and `Flex`.
-- [React Hooks](https://chakra-ui.com/docs/hooks/use-clipboard) for copying text and working with form controls
-- [Responsive design tools](https://chakra-ui.com/docs/styled-system/responsive-styles#the-object-syntax)
-- [Color schemes and variants](https://chakra-ui.com/docs/components/button/theming) to help you customize the look and feel of various components
+## Usage
 
-### Modules
+- Search for a domain name using the search bar.
+- If available, the domain will be shown as available; otherwise, domain suggestions will be displayed.
+- You can log in with Google to save domains to the cart.
 
-We recommend using the following Node.js modules:
+## Future Enhancements
 
-- `@chakra-ui/react`
-- `react`
-- `react-icons`
-- `lodash`
-- `immutable`
+- Integrating a full-fledged checkout system.
+- Adding payment gateways for domain purchases.
+- Enhancing error handling and user feedback mechanisms.
 
-These have been already added to `package.json`.
 
-## Do this to impress us
-
-Some tips to make your submission stand out:
-
-- Add usability features like helpful error messages, loading states, confirmation messages, help text, etc.
-- Optionally, you may add more advanced features like undo button and filtering/sorting.
-- Create many small, modular, and reusable React components.
-- Use plentiful comments for your helper functions, including commenting atop each helper function to explain what it does. VSCode can auto-generate JSDoc comments for you ((see this guide)[https://stackoverflow.com/a/42805312]), which are very helpful.
-- Use `immutable`'s data types like `Set`, `List`, and `Map`; these work very well with React's immutable style.
-- Use Promises and `async`/`await` rather than callbacks.
-- Use functional constructs like `map`, `reduce`, and `filter` rather than imperative `for` loops.
-- Use TypeScript generics wherever they're helpful.
-- Use TypeScript interfaces whenever possible.
-- Use [Prettier](https://prettier.io/) to auto-format your code. They have a great [VSCode plugin](https://github.com/prettier/prettier-vscode).
-
-## Getting started
-
-To start the challenge, install the required packages:
-
-```sh
-npm install
-```
-
-Be sure you're using Node version 18 or greater.
-
-## Testing
-
-To test your code, do:
-
-```sh
-npm run dev
-```
-
-And open `http://localhost:3000` in your browser.
-
-To check your code's validity, you should run all of:
-
-- `npm run build`, to ensure your code builds properly
-- `npm run lint`, to ensure you pass all lint checks
-- `npx tsc`, to ensure that your typings are correct.
-
-## Deployment
-
-You may optionally [deploy your project with Vercel](https://vercel.com/docs/frameworks/nextjs), but it's not required. We won't look at your Vercel instance if you make one; we will just run your Next.js project locally.
-
-## Evaluation
-
-We will run the following commands to test your code, starting in the `challenge-3` folder:
-
-```sh
-npm install
-npm run build
-npm run dev
-```
-
-Be sure that your web app runs correctly, with no warnings or errors.
